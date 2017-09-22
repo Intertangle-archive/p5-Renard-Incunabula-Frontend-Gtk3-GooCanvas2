@@ -1,0 +1,11 @@
+---
+native:
+  debian:
+    packages:
+      - gir1.2-goocanvas-2.0
+  macos-homebrew:
+    packages:
+      - TODO
+  msys2-mingw64:
+    packages:
+      - mingw-w64-x86_64-goocanvas

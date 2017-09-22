@@ -1,0 +1,3 @@
+requires 'Renard::Incunabula::Frontend::Gtk3',
+	git => 'https://github.com/project-renard/p5-Renard-Incunabula-Frontend-Gtk3.git',
+	branch => 'master';
