@@ -5,11 +5,15 @@ package Renard::Incunabula::Frontend::Gtk3::GooCanvas2;
 use Renard::Incunabula::Frontend::Gtk3;
 use Glib::Object::Introspection;
 
+my $_GOOCANVAS_BASENAME = 'GooCanvas';
+my $_GOOCANVAS_VERSION = '2.0';
+my $_GOOCANVAS_PACKAGE = 'GooCanvas2';
+
 sub import {
 	Glib::Object::Introspection->setup(
-		basename => 'GooCanvas',
-		version => '2.0',
-		package => 'GooCanvas2', );
+		basename => $_GOOCANVAS_BASENAME,
+		version  => $_GOOCANVAS_VERSION,
+		package  => $_GOOCANVAS_PACKAGE, );
 }
 
 =method GooCanvas2::CanvasItem::find_child_property
@@ -91,7 +95,7 @@ The use of the correct C<GValue> type is applied in the overrides for the follow
 			my $value_wrapper = Glib::Object::Introspection::GValueWrapper->new (
 				$pspec->get_value_type, undef);
 			Glib::Object::Introspection->invoke (
-				'GooCanvas', $package, 'get_child_property',
+				$_GOOCANVAS_BASENAME, $package, 'get_child_property',
 				$container, $child, $property, $value_wrapper );
 
 			return $value_wrapper->get_value;
@@ -106,7 +110,7 @@ The use of the correct C<GValue> type is applied in the overrides for the follow
 				$pspec->get_value_type, $value);
 
 			Glib::Object::Introspection->invoke (
-				'GooCanvas', $package, 'set_child_property',
+				$_GOOCANVAS_BASENAME, $package, 'set_child_property',
 				$container, $child, $property, $value_wrapper );
 		};
 	}
