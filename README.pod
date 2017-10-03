@@ -4,11 +4,56 @@
 
 =head1 NAME
 
-Renard::Incunabula::Frontend::Gtk3::GooCanvas - Helper code for using GooCanvas via Glib::Object::Introspection
+Renard::Incunabula::Frontend::Gtk3::GooCanvas2 - Helper code for using GooCanvas via Glib::Object::Introspection
 
 =head1 VERSION
 
 version 0.001
+
+=head1 METHODS
+
+=head2 GooCanvas2::CanvasItem::find_child_property
+
+Forwarded to C<GooCanvas2::CanvasItem::class_find_child_property>.
+
+=head2 GooCanvas2::CanvasItem::list_child_properties
+
+Forwarded to C<GooCanvas2::CanvasItem::class_list_child_properties>.
+
+=head2 GooCanvas2::CanvasItemModel::find_child_property
+
+Forwarded to C<GooCanvas2::CanvasItemModel::class_find_child_property>.
+
+=head2 GooCanvas2::CanvasItemModel::list_child_properties
+
+Forwarded to C<GooCanvas2::CanvasItem::class_list_child_properties>.
+
+See comment in code to see why C<GooCanvas2::CanvasItemModel::class_list_child_properties>
+is not used.
+
+=head1 OVERRIDES FOR CHILD PROPERTIES
+
+The use of the correct C<GValue> type is applied in the overrides for the following
+
+=over 4
+
+=item *
+
+C<GooCanvas2::CanvasItem::get_child_property>
+
+=item *
+
+C<GooCanvas2::CanvasItem::set_child_property>
+
+=item *
+
+C<GooCanvas2::CanvasItemModel::get_child_property>
+
+=item *
+
+C<GooCanvas2::CanvasItemModel::set_child_property>
+
+=back
 
 =head1 AUTHOR
 

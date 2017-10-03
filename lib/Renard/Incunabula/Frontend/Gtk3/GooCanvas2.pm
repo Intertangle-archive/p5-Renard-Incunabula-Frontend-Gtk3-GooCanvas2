@@ -16,26 +16,40 @@ sub import {
 
 Forwarded to C<GooCanvas2::CanvasItem::class_find_child_property>.
 
+=cut
+sub GooCanvas2::CanvasItem::find_child_property {
+	return GooCanvas2::CanvasItem::class_find_child_property(@_);
+}
+
+
 =method GooCanvas2::CanvasItem::list_child_properties
 
 Forwarded to C<GooCanvas2::CanvasItem::class_list_child_properties>.
 
 =cut
-
-sub GooCanvas2::CanvasItem::find_child_property {
-	return GooCanvas2::CanvasItem::class_find_child_property(@_);
-}
-
 sub GooCanvas2::CanvasItem::list_child_properties {
 	my $ref = GooCanvas2::CanvasItem::class_list_child_properties(@_);
 	return if not defined $ref;
 	return wantarray ? @$ref : $ref->[$#$ref];
 }
 
+=method GooCanvas2::CanvasItemModel::find_child_property
+
+Forwarded to C<GooCanvas2::CanvasItemModel::class_find_child_property>.
+
+=cut
 sub GooCanvas2::CanvasItemModel::find_child_property {
 	return GooCanvas2::CanvasItemModel::class_find_child_property(@_);
 }
 
+=method GooCanvas2::CanvasItemModel::list_child_properties
+
+Forwarded to C<GooCanvas2::CanvasItem::class_list_child_properties>.
+
+See comment in code to see why C<GooCanvas2::CanvasItemModel::class_list_child_properties>
+is not used.
+
+=cut
 sub GooCanvas2::CanvasItemModel::list_child_properties {
 	my $model = shift @_;
 
@@ -54,6 +68,18 @@ sub GooCanvas2::CanvasItemModel::list_child_properties {
 	return wantarray ? @$ref : $ref->[$#$ref];
 }
 
+=head1 OVERRIDES FOR CHILD PROPERTIES
+
+The use of the correct C<GValue> type is applied in the overrides for the following
+
+=for :list
+* C<GooCanvas2::CanvasItem::get_child_property>
+* C<GooCanvas2::CanvasItem::set_child_property>
+* C<GooCanvas2::CanvasItemModel::get_child_property>
+* C<GooCanvas2::CanvasItemModel::set_child_property>
+
+
+=cut
 {
 	no strict qw(refs);
 	for my $package (qw( CanvasItem  CanvasItemModel )) {
