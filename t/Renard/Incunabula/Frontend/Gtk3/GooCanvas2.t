@@ -1,11 +1,13 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 1;
+use Test::Most tests => 2;
 
 use strict;
 use warnings;
 
 use Renard::Incunabula::Frontend::Gtk3::GooCanvas2;
+use Gtk3 qw(-init);
+use Glib qw(TRUE FALSE);
 
 subtest "Child properties" => sub {
 	subtest "CanvasTableItem" => sub {
@@ -46,6 +48,72 @@ subtest "Child properties" => sub {
 
 		is $table_model->get_child_property($child_model, 'row'), 3,
 			'has expected number of rows after setting';
+	};
+};
+
+subtest "Get items" => sub {
+	my $canvas = GooCanvas2::Canvas->new;
+
+	my $colors = [
+		{ color => 'red', rgba => 'rgb(255,0,0)' },
+		{ color => 'blue', rgba => 'rgb(0,0,255)' },
+	];
+
+	my $rect0 = GooCanvas2::CanvasRect->new(
+		'fill-color' => $colors->[0]{color},
+		x => 10, y => 10,
+		width => 10, height => 10 );
+
+	my $rect1 = GooCanvas2::CanvasRect->new(
+		'fill-color' => $colors->[1]{color},
+		x => 30, y => 30,
+		width => 10, height => 10 );
+
+	my $group = GooCanvas2::CanvasGroup->new;
+
+	$group->add_child( $rect0, -1 );
+	$group->add_child( $rect1, -1 );
+
+	$canvas->set_root_item( $group );
+
+	my $get_fill = sub {
+		shift->get_property('fill-color-gdk-rgba')->to_string;
+	};
+
+	subtest "Find first rect" => sub {
+		my @items = $canvas->get_items_in_area(
+			GooCanvas2::CanvasBounds->new(
+				x1 => 0, y1 => 0, x2 => 25, y2 => 25,
+			),
+			TRUE, TRUE, FALSE
+		);
+		is scalar @items, 1, 'only one rect';
+		is $items[0]->$get_fill, $colors->[0]{rgba}, 'correct fill-color';
+	};
+
+	subtest "Find second rect" => sub {
+		my @items = $canvas->get_items_in_area(
+			GooCanvas2::CanvasBounds->new(
+				x1 => 25, y1 => 25, x2 => 45, y2 => 45,
+			),
+			TRUE, TRUE, FALSE
+		);
+		is scalar @items, 1, 'only one rect';
+		is $items[0]->$get_fill, $colors->[1]{rgba}, 'correct fill-color';
+	};
+
+	subtest "Find both rects" => sub {
+		my @items = $canvas->get_items_in_area(
+			GooCanvas2::CanvasBounds->new(
+				x1 => 0, y1 => 0, x2 => 45, y2 => 45,
+			),
+			TRUE, TRUE, FALSE
+		);
+		is scalar @items, 2, 'both rects';
+		my @fill_colors = map { $_->$get_fill } @items;
+		cmp_deeply \@fill_colors,
+			set(map { $_->{rgba} } @$colors),
+			'correct fill-colors';
 	};
 };
 
