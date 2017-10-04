@@ -9,11 +9,19 @@ my $_GOOCANVAS_BASENAME = 'GooCanvas';
 my $_GOOCANVAS_VERSION = '2.0';
 my $_GOOCANVAS_PACKAGE = 'GooCanvas2';
 
+my @_FLATTEN_ARRAY_REF_RETURN_FOR = qw/
+	GooCanvas2::Canvas::get_items_at
+	GooCanvas2::Canvas::get_items_in_area
+	GooCanvas2::CanvasItem::get_items_at
+/;
+
 sub import {
 	Glib::Object::Introspection->setup(
 		basename => $_GOOCANVAS_BASENAME,
 		version  => $_GOOCANVAS_VERSION,
-		package  => $_GOOCANVAS_PACKAGE, );
+		package  => $_GOOCANVAS_PACKAGE,
+		flatten_array_ref_return_for => \@_FLATTEN_ARRAY_REF_RETURN_FOR,
+	);
 }
 
 =method GooCanvas2::CanvasItem::find_child_property
