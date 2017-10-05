@@ -93,7 +93,7 @@ The use of the correct C<GValue> type is applied in the overrides for the follow
 
 =cut
 {
-	no strict qw(refs);
+	no strict qw(refs); ## no critic (ProhibitNoStrict)
 	for my $package (qw( CanvasItem  CanvasItemModel )) {
 		*{'GooCanvas2::' . $package . '::get_child_property'} = sub {
 			my ($container, $child, $property) = @_;
